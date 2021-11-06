@@ -49,7 +49,7 @@ namespace KeyValueStore
                     License = new OpenApiLicense
                     {
                         Name = "MIT License",
-                        Url = new Uri("https://github.com/AchoArnold/key-value-store/blob/main/LICENSE"),
+                        Url = new Uri("https://raw.githubusercontent.com/AchoArnold/key-value-store/main/LICENSE"),
                     }
                 });
 
