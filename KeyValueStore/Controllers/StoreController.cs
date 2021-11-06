@@ -2,20 +2,20 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using CockroachDbEfcore.Database;
-using CockroachDbEfcore.Entities;
+using KeyValueStore.Database;
+using KeyValueStore.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CockroachDbEfcore.Controllers
+namespace KeyValueStore.Controllers
 {
     [ApiController]
-    [Route("item/{key}")]
-    public class ItemController : ControllerBase
+    [Route("store/{key}")]
+    public class StoreController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public ItemController(ApplicationDbContext dbContext)
+        public StoreController(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -23,7 +23,7 @@ namespace CockroachDbEfcore.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromRoute] string key, CancellationToken cancellationToken)
         {
-            var item = await _dbContext.Items.FindAsync(new object[] {key}, cancellationToken);
+            var item = await _dbContext.Store.FindAsync(new object[] { key }, cancellationToken);
             if (item == null) return NotFound();
 
             return new OkObjectResult(item);
@@ -37,18 +37,35 @@ namespace CockroachDbEfcore.Controllers
         {
             using (var reader = new StreamReader(Request.Body))
             {
-                var item = new Item
+                var item = new Store
                 {
                     Key = key,
                     Value = await reader.ReadToEndAsync(),
                     CreatedAt = DateTime.UtcNow
                 };
 
-                await _dbContext.Items
+                await _dbContext.Store
                     .Upsert(item)
                     .On(x => x.Key)
                     .RunAsync(cancellationToken);
             }
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAsync(
+            [FromRoute] string key,
+            CancellationToken cancellationToken
+        )
+        {
+            var item = await _dbContext.Store.FirstOrDefaultAsync(x => x.Key == key, cancellationToken);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            _dbContext.Store.Remove(item);
 
             return Ok();
         }

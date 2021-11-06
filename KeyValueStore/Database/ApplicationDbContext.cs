@@ -1,11 +1,11 @@
-﻿using CockroachDbEfcore.Entities;
+﻿using KeyValueStore.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CockroachDbEfcore.Database
+namespace KeyValueStore.Database
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<Item> Items { get; set; }
+        public DbSet<Store> Store { get; set; } = default!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -13,8 +13,8 @@ namespace CockroachDbEfcore.Database
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Item>().ToTable("items");
-            modelBuilder.Entity<Item>().HasKey(x => x.Key);
+            modelBuilder.Entity<Store>().ToTable("store");
+            modelBuilder.Entity<Store>().HasKey(x => x.Key);
         }
     }
 }

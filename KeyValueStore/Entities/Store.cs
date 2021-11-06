@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CockroachDbEfcore.Entities
+namespace KeyValueStore.Entities
 {
-    public class Item
+    public class Store
     {
         [Required]
         [Key]
