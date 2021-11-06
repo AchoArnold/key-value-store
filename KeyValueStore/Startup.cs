@@ -1,4 +1,8 @@
+using System;
+using System.IO;
+using System.Reflection;
 using KeyValueStore.Database;
+using KeyValueStore.Formatters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,11 +28,35 @@ namespace KeyValueStore
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString(nameof(ApplicationDbContext))));
 
-            services.AddControllers();
+            services.AddControllers(o =>
+            {
+                o.InputFormatters.Insert(o.InputFormatters.Count, new TextPlainInputFormatter());
+                o.OutputFormatters.Insert(o.OutputFormatters.Count, new TextPlainOutputFormatter());
+            });
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "CockroachDb EF core", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Key-Value Store API",
+                    Description = "A simple Key-Value store API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Acho Arnold",
+                        Email = "arnold@ndolestudio.com",
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT License",
+                        Url = new Uri("https://github.com/AchoArnold/key-value-store/blob/main/LICENSE"),
+                    }
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 
@@ -41,8 +69,9 @@ namespace KeyValueStore
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "KeyValueStore v1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Key Value Store API v1");
                     c.RoutePrefix = string.Empty;
+                    c.DocumentTitle = "Key Value store";
                 });
             }
 

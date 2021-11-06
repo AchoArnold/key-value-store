@@ -5,7 +5,7 @@ namespace KeyValueStore.Database
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<Store> Store { get; set; } = default!;
+        public DbSet<KeyValueEntry> KeyValueEntries { get; set; } = default!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -13,8 +13,8 @@ namespace KeyValueStore.Database
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Store>().ToTable("store");
-            modelBuilder.Entity<Store>().HasKey(x => x.Key);
+            modelBuilder.Entity<KeyValueEntry>().ToTable("store");
+            modelBuilder.Entity<KeyValueEntry>().HasKey(x => x.Key);
         }
     }
 }

@@ -3,13 +3,16 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <UserSecretsId>91f7f8bb-7dbd-417e-b3a5-37d921640255</UserSecretsId>
+        <NoWarn>CS1591</NoWarn>
         <Nullable>enable</Nullable>
         <RootNamespace>CockroachDbEfcore</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="FlexLabs.EntityFrameworkCore.Upsert" Version="5.0.0" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.4" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10">
             <PrivateAssets>all</PrivateAssets>
