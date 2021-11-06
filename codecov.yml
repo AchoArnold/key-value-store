@@ -1,0 +1,2 @@
+ignore:
+  - "KeyValueStore/Migrations" # Ignore migrations.
