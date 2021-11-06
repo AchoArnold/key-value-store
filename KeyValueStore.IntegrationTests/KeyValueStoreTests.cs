@@ -199,7 +199,7 @@ namespace KeyValueStore.IntegrationTests
         {
             var faker = new Faker();
             yield return "";
-            yield return faker.Random.String(faker.Random.Number(1025, 10000));
+            yield return faker.Random.String(faker.Random.Number(5121, 10000));
             yield return EncodeBase64(faker.Random.String(faker.Random.Number(5121, 10000)));
 
         }
