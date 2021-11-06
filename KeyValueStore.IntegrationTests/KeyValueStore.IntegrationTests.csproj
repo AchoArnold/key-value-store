@@ -7,8 +7,7 @@
         <RootNamespace>KeyValueStore.IntergrationTests</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Bogus" Version="33.1.1"/>
-        <PackageReference Include="Codecov.MSBuild" Version="1.13.0"/>
+        <PackageReference Include="Bogus" Version="33.1.1" />
         <PackageReference Include="coverlet.collector" Version="3.1.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -17,20 +16,16 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="FluentAssertions" Version="6.2.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.11"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.11"/>
-        <PackageReference Include="NUnit" Version="3.12.0"/>
-        <PackageReference Include="NUnit3TestAdapter" Version="3.16.1"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0"/>
+        <PackageReference Include="FluentAssertions" Version="6.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.11" />
+        <PackageReference Include="NUnit" Version="3.12.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\KeyValueStore\KeyValueStore.csproj"/>
+        <ProjectReference Include="..\KeyValueStore\KeyValueStore.csproj" />
     </ItemGroup>
-
-    <Target Name="UploadCoverageToCodecov" AfterTargets="GenerateCoverageResultAfterTest">
-        <Codecov ReportFiles="@(CoverletReport)"/>
-    </Target>
 
 </Project>
