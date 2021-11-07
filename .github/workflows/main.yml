@@ -20,7 +20,7 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
       - name: Test
-        run: dotnet test --no-restore --collect:"XPlat Code Coverage"
+        run:  dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
       - name: Codecov
         uses: codecov/codecov-action@v1.5.2
   analyze:
@@ -59,8 +59,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"AchoArnold_key-value-store" /o:"achoarnold" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet test --collect:"XPlat Code Coverage"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"AchoArnold_key-value-store" /o:"achoarnold" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="**Tests"
+           dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
   deploy:
     needs: [build, analyze]
