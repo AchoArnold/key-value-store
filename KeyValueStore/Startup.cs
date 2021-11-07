@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace KeyValueStore
 {
@@ -56,8 +57,8 @@ namespace KeyValueStore
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "CockroachDB Key-Value Store API",
-                    Description = "GIT SHA:" + (Configuration.GetSection("GIT_COMMIT").Get<string>() ?? "HEAD"),
+                    Title = "Key-Value Store API built with CockroachDB",
+                    Description = Configuration.GetSection("GIT_COMMIT").Get<string>(),
                     Contact = new OpenApiContact
                     {
                         Name = "Acho Arnold",
@@ -73,7 +74,7 @@ namespace KeyValueStore
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
+                c.IncludeXmlComments(xmlPath, true);
             });
         }
 
@@ -91,7 +92,7 @@ namespace KeyValueStore
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Key Value Store API v1");
                 c.RoutePrefix = string.Empty;
-                c.DocumentTitle = "Key Value store";
+                c.DocumentTitle = "Key-Value Store API built with CockroachDB";
             });
 
             app.UseRouting();
