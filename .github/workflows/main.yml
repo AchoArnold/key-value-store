@@ -65,7 +65,7 @@ jobs:
   
   package:
     name: "Build and Push container to Github"
-    needs: [build, analyze]
+    #needs: [build, analyze]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -92,7 +92,7 @@ jobs:
         with:
           context: ./KeyValueStore
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
   
   deploy:
