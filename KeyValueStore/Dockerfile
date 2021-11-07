@@ -13,6 +13,8 @@ RUN dotnet build "KeyValueStore.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "KeyValueStore.csproj" -c Release -o /app/publish
+RUN apt-get install curl
+RUN curl --create-dirs -o /app/root.crt -O https://cockroachlabs.cloud/clusters/85ff5b6e-a9ef-4baa-a2b9-aba8bb037a0f/cert
 
 FROM base AS final
 
@@ -21,6 +23,7 @@ ENV GIT_COMMIT=$GIT_COMMIT
 
 WORKDIR /app
 RUN apt update &&  apt install -y libc-dev
-RUN curl --create-dirs -o ~/.postgresql/root.crt -O https://cockroachlabs.cloud/clusters/85ff5b6e-a9ef-4baa-a2b9-aba8bb037a0f/cert
+RUN mkdir -p /root/.postgresql
+COPY --from=publish /app/root.crt /root/.postgresql/
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "KeyValueStore.dll", "${GIT_COMMIT}"]
