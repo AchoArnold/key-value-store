@@ -92,7 +92,7 @@ jobs:
         with:
           context: ./KeyValueStore
           push: true
-          tags: ghcr.io/${{ github.actor }}/key-value-store:${{ github.sha }}
+          tags: ghcr.io/key-value-store:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
   
   deploy:
