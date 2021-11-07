@@ -56,8 +56,8 @@ namespace KeyValueStore
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Key-Value Store API",
-                    Description = "A simple Key-Value store API",
+                    Title = "CockroachDB Key-Value Store API",
+                    Description = "GIT SHA:" + (Configuration.GetSection("GIT_COMMIT").Get<string>() ?? "HEAD"),
                     Contact = new OpenApiContact
                     {
                         Name = "Acho Arnold",

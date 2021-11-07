@@ -1,11 +1,9 @@
-name: Build & Test
+name: Build, Test, Deploy
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
   build:
@@ -64,3 +62,19 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"AchoArnold_key-value-store" /o:"achoarnold" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+  deploy:
+    needs: [build, analyze]
+    name: Build & Deploy Docker container
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/docker-login@v1
+        with:
+          login-server: arnoldacho.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      - name: Build & Publish
+        working-directory: ./KeyValueStore
+        run: |
+          docker build . -t arnoldacho.azurecr.io/key-value-store:${{ github.sha }}  -t arnoldacho.azurecr.io/key-value-store:latest
+          docker push arnoldacho.azurecr.io/key-value-store:${{ github.sha }} arnoldacho.azurecr.io/key-value-store:latest

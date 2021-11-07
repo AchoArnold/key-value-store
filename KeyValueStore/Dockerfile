@@ -26,4 +26,4 @@ RUN apt update &&  apt install -y libc-dev
 RUN mkdir -p /root/.postgresql
 COPY --from=publish /app/root.crt /root/.postgresql/
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "KeyValueStore.dll", "${GIT_COMMIT}"]
+ENTRYPOINT ["dotnet", "KeyValueStore.dll"]
