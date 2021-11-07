@@ -21,5 +21,6 @@ ENV GIT_COMMIT=$GIT_COMMIT
 
 WORKDIR /app
 RUN apt update &&  apt install -y libc-dev
+RUN curl --create-dirs -o ~/.postgresql/root.crt -O https://cockroachlabs.cloud/clusters/85ff5b6e-a9ef-4baa-a2b9-aba8bb037a0f/cert
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "KeyValueStore.dll", "${GIT_COMMIT}"]
