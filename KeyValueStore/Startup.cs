@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Azure.Monitor.OpenTelemetry.Exporter;
 using KeyValueStore.Database;
 using KeyValueStore.Formatters;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 namespace KeyValueStore
 {
@@ -25,6 +28,17 @@ namespace KeyValueStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOpenTelemetryTracing(builder =>
+                builder
+                    .SetResourceBuilder(
+                        ResourceBuilder.CreateDefault().AddService(Assembly.GetExecutingAssembly().GetName().Name)
+                    )
+                    .AddAspNetCoreInstrumentation()
+                    .AddAzureMonitorTraceExporter(o =>
+                        o.ConnectionString = Configuration.GetSection("APPLICATIONINSIGHTS_CONNECTION_STRING")
+                            .Get<string>())
+            );
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString(nameof(ApplicationDbContext))));
 
@@ -65,9 +79,10 @@ namespace KeyValueStore
         {
             if (env.IsDevelopment())
             {
+                app.UseHttpsRedirection();
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -75,8 +90,6 @@ namespace KeyValueStore
                 c.RoutePrefix = string.Empty;
                 c.DocumentTitle = "Key Value store";
             });
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
