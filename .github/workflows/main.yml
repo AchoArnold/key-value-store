@@ -76,5 +76,5 @@ jobs:
       - name: Build & Publish
         working-directory: ./KeyValueStore
         run: |
-          docker build . -t arnoldacho.azurecr.io/key-value-store:${{ github.sha }}  -t arnoldacho.azurecr.io/key-value-store:latest
+          docker build  -t arnoldacho.azurecr.io/key-value-store:${{ github.sha }}  -t arnoldacho.azurecr.io/key-value-store:latest --build-arg GIT_COMMIT=${{ github.sha }} .
           docker push  --all-tags arnoldacho.azurecr.io/key-value-store
