@@ -64,8 +64,8 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
   
   package:
-    name: "Build and Push container to Github"
-    #needs: [build, analyze]
+    name: "Build & Push image to Github"
+    needs: [build, analyze]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -97,7 +97,7 @@ jobs:
   
   deploy:
     needs: package
-    name: Build & Push container to ACR
+    name: Build & Push image to ACR
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
