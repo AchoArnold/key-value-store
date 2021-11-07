@@ -60,7 +60,7 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"AchoArnold_key-value-store" /o:"achoarnold" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build
+          dotnet build && dotnet test --no-restore --collect:"XPlat Code Coverage"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
   deploy:
     needs: [build, analyze]
@@ -77,4 +77,4 @@ jobs:
         working-directory: ./KeyValueStore
         run: |
           docker build . -t arnoldacho.azurecr.io/key-value-store:${{ github.sha }}  -t arnoldacho.azurecr.io/key-value-store:latest
-          docker push arnoldacho.azurecr.io/key-value-store:${{ github.sha }} arnoldacho.azurecr.io/key-value-store:latest
+          docker push  --all-tags arnoldacho.azurecr.io/key-value-store
