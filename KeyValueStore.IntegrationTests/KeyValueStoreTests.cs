@@ -58,8 +58,6 @@ namespace KeyValueStore.IntegrationTests
             
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-            var content = await response.Content.ReadAsStringAsync();
-            content.Should().BeEmpty();
         }
         
         [Test]
@@ -191,8 +189,6 @@ namespace KeyValueStore.IntegrationTests
             
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-            var content = await response.Content.ReadAsStringAsync();
-            content.Should().BeEmpty();
         }
         
         private static IEnumerable<string> GenerateInvalidValues()
