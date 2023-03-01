@@ -13,7 +13,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace KeyValueStore
 {
@@ -29,16 +28,19 @@ namespace KeyValueStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddOpenTelemetryTracing(builder =>
-                builder
-                    .SetResourceBuilder(
-                        ResourceBuilder.CreateDefault().AddService(Assembly.GetExecutingAssembly().GetName().Name)
-                    )
-                    .AddAspNetCoreInstrumentation()
-                    .AddAzureMonitorTraceExporter(o =>
-                        o.ConnectionString = Configuration.GetSection("APPLICATIONINSIGHTS_CONNECTION_STRING")
-                            .Get<string>())
-            );
+            services.AddOpenTelemetry().WithTracing(builder =>
+            {
+                var serviceName = Assembly.GetExecutingAssembly().GetName().Name;
+                if (serviceName != null)
+                    builder
+                        .SetResourceBuilder(
+                            ResourceBuilder.CreateDefault().AddService(serviceName)
+                        )
+                        .AddAspNetCoreInstrumentation()
+                        .AddAzureMonitorTraceExporter(o =>
+                            o.ConnectionString = Configuration.GetSection("APPLICATIONINSIGHTS_CONNECTION_STRING")
+                                .Get<string>());
+            });
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString(nameof(ApplicationDbContext))));
