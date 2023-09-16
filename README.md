@@ -6,6 +6,6 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AchoArnold_key-value-store&metric=alert_status)](https://sonarcloud.io/dashboard?id=AchoArnold_key-value-store)
 [![GitHub license](https://img.shields.io/github/license/AchoArnold/key-value-store?color=brightgreen)](https://github.com/AchoArnold/key-value-store/blob/master/LICENSE)
 
-Key-Value store built with CockroachDB, .Net 7.0, and Entity Framework Core 7.0. It is available on https://key-value-store.ndolestudio.com.
+Key-Value store built with YugabyteDB, .Net 7.0, and Entity Framework Core 7.0. It is available on https://key-value-store.ndolestudio.com.
 
 ![image](https://github.com/AchoArnold/key-value-store/assets/4196457/05dfdce8-fede-47a6-b6ba-bf4c38140b7a)

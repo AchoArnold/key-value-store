@@ -7,7 +7,7 @@
         <UserSecretsId>91f7f8bb-7dbd-417e-b3a5-37d921640255</UserSecretsId>
         <NoWarn>CS1591</NoWarn>
         <Nullable>enable</Nullable>
-        <RootNamespace>CockroachDbEfcore</RootNamespace>
+        <RootNamespace>KeyvalueStore</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -29,6 +29,12 @@
 
     <ItemGroup>
       <Folder Include="Migrations" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="root.crt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

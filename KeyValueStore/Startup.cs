@@ -59,7 +59,7 @@ namespace KeyValueStore
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Key-Value Store API built with CockroachDB",
+                    Title = "Key-Value Store API built with YugabyteDB",
                     Description = Configuration.GetSection("GIT_COMMIT").Get<string>(),
                     Contact = new OpenApiContact
                     {
@@ -94,7 +94,7 @@ namespace KeyValueStore
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Key Value Store API v1");
                 c.RoutePrefix = string.Empty;
-                c.DocumentTitle = "Key-Value Store API built with CockroachDB";
+                c.DocumentTitle = "Key-Value Store API built with YugabyteDB";
             });
 
             app.UseRouting();
