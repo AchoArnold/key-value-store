@@ -8,6 +8,4 @@
 
 Key-Value store built with CockroachDB, .Net 7.0, and Entity Framework Core 7.0. It is available on https://key-value-store.ndolestudio.com.
 
-![Screenshot](https://acho.arnold.cm/content/images/size/w2000/2021/11/screenshot-rocks.png)
-
-More Info: https://acho.arnold.cm/key-value-store-with-cokroachdb-net-core-and-entity-framework
+![image](https://github.com/AchoArnold/key-value-store/assets/4196457/05dfdce8-fede-47a6-b6ba-bf4c38140b7a)
